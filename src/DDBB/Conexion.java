@@ -17,7 +17,7 @@ public class Conexion  {
      * Crea una nueva instancia de la clase con valores por defecto.
      * @throws SQLException Cuando ocurre un error a la hora de conectar con la base de datos MySql.
      */
-    public Conexion() throws SQLException {
+    public Conexion(){
         this.url = "jdbc:mysql://localhost:3307/tienda";
         this.usuario = "root";
         this.contraseña = "";

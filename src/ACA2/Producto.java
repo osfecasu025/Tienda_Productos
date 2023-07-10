@@ -102,6 +102,14 @@ public class Producto {
     }
 
     /**
+     * Calcula el monto total de las ventas ocasionadas por este producto.
+     * @return
+     */
+    public float calcularVentas(){
+        return (float) (calcularPrecioFinal() * this.cantidadVendida);
+    }
+
+    /**
      * Si la cantidad pasada como argumento es mayor o igual a lo que hay en bodega le resta dicha cantidad a lo que hay en bodega y
      * se la suma a lo que ha vendido.
      * @param cantidad
