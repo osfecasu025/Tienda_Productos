@@ -5,14 +5,13 @@ package DDBB;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.List;
 import java.sql.*;
 import java.util.ArrayList;
 
 
 public class Consultador {
     //ATRIBUTOS--------------------------------------------------------------------------------------------------------------------------------------
-    public Conexion conexionDB;
+    private Conexion conexionDB;
 
     //CONSTRUCTOR------------------------------------------------------------------------------------------------------------------------------------
 
@@ -63,8 +62,9 @@ public class Consultador {
         //Cerrar conexión
         this.conexionDB.desconectar();
     }
-
     
+<<<<<<< Updated upstream
+=======
     public void actualizarProducto(int pIdProducto, String pNombreProducto, String pTipoProducto, int pCantidadProducto, int pCantidadMinProducto, float pPrecioUnit, float pIva, int pCantidadVendida) throws SQLException {
         //Iniciar conexión
         this.conexionDB.conectar();
@@ -115,7 +115,7 @@ public class Consultador {
     }
     
 
-    public ArrayList<ProductoDB> listarProducto(int pIdProducto, String pNombreProducto, String pTipoProducto, int pCantidadProducto, int pCantidadMinProducto, float pPrecioUnit, float pIva, int pCantidadVendida) throws SQLException {
+    public ArrayList<ProductoDB> listarProducto() throws SQLException {
         //Iniciar conexión
         this.conexionDB.conectar();
         Connection tempConnection = conexionDB.getConexion();
@@ -149,6 +149,7 @@ public class Consultador {
 
         return resultados;
     }
+>>>>>>> Stashed changes
 }
 
   
