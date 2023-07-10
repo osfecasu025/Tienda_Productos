@@ -4,16 +4,10 @@
  */
 package Vista;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.sql.*;
 
 /**
  *
@@ -21,71 +15,55 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Tienda_interfaz extends javax.swing.JPanel {
     
-    DefaultTableModel model = new DefaultTableModel();
-    Connection connection;
+    private JTable tabla;
+    private DefaultTableModel model;
     /**
      * Creates new form Tienda_interfaz
      */
     public Tienda_interfaz() {
         initComponents();
+        columnas();
+        llenarTabla();
     }
     
-    
-    
-    public void Tabla(){
-       try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/tienda", "root", "");
-            
-            // Realizar la consulta a la base de datos
-            String sql = "SELECT * FROM productos";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            ResultSet resultSet = statement.executeQuery();
-            
-            while (resultSet.next()) {
-                // Obtener los datos de la base de datos
-                int id = resultSet.getInt("id");
-                String nombre = resultSet.getString("nombre");
-                int cantidadBodega =  resultSet.getInt("cantidadBodega");
-                String iva = resultSet.getString("iva");
-                float precio = resultSet.getFloat("precioUnitario");
-                
-                int cantidadMinima = resultSet.getInt("cantidadMinima");
-                // Realizar los cálculos necesarios
-                if(cantidadBodega<= cantidadMinima){
-                 String pedido = "SI";
-                 model.addRow(new Object[]{id, nombre, cantidadBodega, iva, precio, pedido});
-                }
-                else{
-                  String pedido = "NO";  
-                   model.addRow(new Object[]{id, nombre, cantidadBodega, iva, precio, pedido});
-                } 
-                
+    private void columnas(){
         
-            }
-            tabla.setModel(model);
+        model = new DefaultTableModel();
+        model.addColumn("ID");
+        model.addColumn("Producto");
+        model.addColumn("Cantidad");
+        model.addColumn("IVA");
+        model.addColumn("Precio");
+        model.addColumn("Pedido");
+        table.setModel(model);
+       
+    }
+    
+    public void llenarTabla(){
+      try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/tienda", "root", "");
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM productos");
 
-            // Cerrar el ResultSet, PreparedStatement y la conexión a la base de datos
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String producto = resultSet.getString("nombre");
+                int cantidad = resultSet.getInt("cantidadBodega");
+                String iva = resultSet.getString("iva");
+                double precio = resultSet.getDouble("precioUnitario");
+
+                // Realizar los cálculos necesarios para el pedido
+                String pedido = cantidad <= 0 ? "No" : "Sí";
+
+                model.addRow(new Object[]{id, producto, cantidad, iva, precio, pedido});
+            }
+
             resultSet.close();
             statement.close();
             connection.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
-            // Manejo de errores de conexión
-        } finally {
-            // Asegurarse de cerrar la conexión en caso de excepción
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-            }
         }
-        
-    
-    
-    
-    
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -96,12 +74,12 @@ public class Tienda_interfaz extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel4 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         siguiente = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabla = new javax.swing.JTable();
+        table = new javax.swing.JTable();
         jPanel9 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         nombre2 = new javax.swing.JTextField();
@@ -118,6 +96,21 @@ public class Tienda_interfaz extends javax.swing.JPanel {
         pedir = new javax.swing.JButton();
         eliminar = new javax.swing.JButton();
 
+        jPanel4.setToolTipText("NOSE");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 583, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 439, Short.MAX_VALUE)
+        );
+
+        jPanel4.getAccessibleContext().setAccessibleName("Productos");
+
         siguiente.setText("PRODUCTOS");
         siguiente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -127,62 +120,37 @@ public class Tienda_interfaz extends javax.swing.JPanel {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("PRODUCTOS"));
 
-        jPanel4.setToolTipText("NOSE");
-
-        tabla.setModel(new javax.swing.table.DefaultTableModel(
+        table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "ID", "PRODUCTO", "CANTIDAD", "IVA", "PRECIO", "PEDIDO"
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Float.class, java.lang.String.class, java.lang.Float.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(tabla);
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        ));
+        jScrollPane1.setViewportView(table);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGap(0, 583, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+            .addGap(0, 459, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)))
         );
-
-        jPanel4.getAccessibleContext().setAccessibleName("Productos");
 
         jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder("CÁLCULOS"));
 
@@ -331,7 +299,6 @@ public class Tienda_interfaz extends javax.swing.JPanel {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -339,14 +306,16 @@ public class Tienda_interfaz extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(0, 495, Short.MAX_VALUE)
                         .addComponent(siguiente))
-                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -432,7 +401,11 @@ public class Tienda_interfaz extends javax.swing.JPanel {
     public static javax.swing.JTextField nombre2;
     public javax.swing.JButton pedir;
     public javax.swing.JButton siguiente;
-    private javax.swing.JTable tabla;
+    private javax.swing.JTable table;
     public javax.swing.JButton vender;
     // End of variables declaration//GEN-END:variables
+
+    private void setDefaultCloseOperation(int EXIT_ON_CLOSE) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
