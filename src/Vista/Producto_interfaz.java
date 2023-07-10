@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,18 +22,39 @@ import java.util.logging.Logger;
  */
 public class Producto_interfaz extends javax.swing.JFrame {
     
-   Conexion gestorConexion;
-   Producto producto = new Producto();
+    Producto producto;
+    ArrayList<String> tiposProducto;
+    ArrayList<String> tiposIva;
     public Producto_interfaz() throws SQLException {
-        this.gestorConexion = new Conexion();
-        
-
+        producto = new Producto();
+        tiposProducto = producto.getTiposProducto();
+        tiposIva = producto. getTiposIva();
+         
+         
+         
+         
         initComponents();
         Agregar();
         limpiarCampos();
         Actualizar();
         Eliminar();
     } 
+    
+    public void ComboBox(){
+        for (tipoProducto : tiposProducto){
+            tipo.addItem(tipoProducto);
+        }
+        
+        for (tipoIva : tiposIva){
+            iva.addItem(tipoIva);
+        }
+        
+    
+    }
+    
+    
+    
+    
      public void Agregar() {
     guarda.addActionListener(new ActionListener() {
         @Override
@@ -456,7 +478,10 @@ public class Producto_interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_modificarActionPerformed
 
     private void tipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoActionPerformed
-        // TODO add your handling code here:
+       getTiposProducto() 
+               
+               return ArrayList<Strings>()
+        
     }//GEN-LAST:event_tipoActionPerformed
 
     private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed

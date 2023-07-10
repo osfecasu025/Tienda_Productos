@@ -24,6 +24,10 @@ public class Producto {
         this.Iva =pIva;
         this.cantidadVendida = pCantidadVendida;
     }
+
+    public Producto() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
     //GETTERS AND SETTERS----------------------------------------------------------------------------------------------------------------------------
 
