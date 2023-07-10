@@ -1,15 +1,23 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ACA2;
-
 /**
- *
- * @author osfec
+ * Enumeración que representa todos los distintos productos que puede tener una tienda
  */
 public enum TipoProducto {
-    PAPELERIA,
-    SUPERMERCADO,
-    DROGUERIA;
+    //ELEMENTOS--------------------------------------------------------------------------------------------------------------------------------------
+    PAPELERIA("Papeleria"),
+    SUPERMERCADO("Super Mercado"),
+    DROGUERIA("Drogueria");
+
+    //ATRIBUTOS--------------------------------------------------------------------------------------------------------------------------------------
+    private String nombre;
+
+    //CONSTRUCTOR------------------------------------------------------------------------------------------------------------------------------------
+    private TipoProducto(String pNombre) {
+        this.nombre = pNombre;
+    }
+
+    //GETTERS----------------------------------------------------------------------------------------------------------------------------------------
+    public String getNombre() {
+        return nombre;
+    }
 }

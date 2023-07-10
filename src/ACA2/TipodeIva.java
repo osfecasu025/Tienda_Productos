@@ -1,31 +1,23 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ACA2;
-
 /**
- *
- * @author osfec
+ * Enumeración que representa todos los distintos tipos de ivas aplicables a los productos.
  */
 public enum TipodeIva {
-    
-    
-    IvaPapeleria_16(16),
-    IvaSupermercado_4(4),
-    IvaDrogueria_12(12);
+    //ELEMENTOS--------------------------------------------------------------------------------------------------------------------------------------
+    IvaPapeleria_16(0.16f),
+    IvaSupermercado_4(0.04f),
+    IvaDrogueria_12(0.12f);
 
-    private final double porcentajeIva;
+    //ATRIBUTOS--------------------------------------------------------------------------------------------------------------------------------------
+    private float porcentajeIva;
 
-    private TipodeIva(double porcentajeIva) {
-        this.porcentajeIva = porcentajeIva;
+    //CONSTRUCTOR------------------------------------------------------------------------------------------------------------------------------------
+    private TipodeIva(float pPorcentajeIva) {
+        this.porcentajeIva = pPorcentajeIva;
     }
 
-    public double obtenerPorcentajeIva() {
+    //GETTERS----------------------------------------------------------------------------------------------------------------------------------------
+    public float getPorcentajeIva() {
         return porcentajeIva;
-    }
-
-    public double calcularIva(double precio) {
-        return precio * (porcentajeIva / 100);
     }
 }
