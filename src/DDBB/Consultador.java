@@ -64,7 +64,6 @@ public class Consultador {
         this.conexionDB.desconectar();
     }
 
-    //TODO-> Actualizar producto
     
     public void actualizarProducto(int pIdProducto, String pNombreProducto, String pTipoProducto, int pCantidadProducto, int pCantidadMinProducto, float pPrecioUnit, float pIva, int pCantidadVendida) throws SQLException {
         //Iniciar conexión
@@ -93,8 +92,8 @@ public class Consultador {
         this.conexionDB.desconectar();
     }
 
-    //TODO->eliminarProducto
-    public void eliminarProducto(int pIdProducto, String pNombreProducto, String pTipoProducto, int pCantidadProducto, int pCantidadMinProducto, float pPrecioUnit, float pIva, int pCantidadVendida) throws SQLException {
+    
+    public void eliminarProducto(int pIdProducto) throws SQLException {
         //Iniciar conexión
         this.conexionDB.conectar();
         Connection tempConnection = conexionDB.getConexion();
@@ -114,8 +113,9 @@ public class Consultador {
         //Cerrar conexión
         this.conexionDB.desconectar();
     }
-    //TODO->listarProductos... Deve devolver un arraylist con 7 columnas en el que cada fila traiga los valores necesarios para construir un producto 
-        public void listarProducto(int pIdProducto, String pNombreProducto, String pTipoProducto, int pCantidadProducto, int pCantidadMinProducto, float pPrecioUnit, float pIva, int pCantidadVendida) throws SQLException {
+    
+
+    public ArrayList<ProductoDB> listarProducto(int pIdProducto, String pNombreProducto, String pTipoProducto, int pCantidadProducto, int pCantidadMinProducto, float pPrecioUnit, float pIva, int pCantidadVendida) throws SQLException {
         //Iniciar conexión
         this.conexionDB.conectar();
         Connection tempConnection = conexionDB.getConexion();
@@ -124,6 +124,10 @@ public class Consultador {
         String sql = "SELECT * FROM productos";
         PreparedStatement statement = tempConnection.prepareStatement(sql);
         ResultSet result = statement.executeQuery(sql);
+
+        //Crear nuevo arraylist
+        ArrayList<ProductoDB> resultados = new ArrayList<ProductoDB>();
+        ProductoDB current;
 
         //Pasamos los valores de los parametros
         while (result.next()) {
@@ -135,14 +139,15 @@ public class Consultador {
             float precioUnitario = result.getFloat("precioUnitario");
             float iva = result.getFloat("iva");
             int cantidadVendida = result.getInt("cantidadVendida");
+            current = new ProductoDB(id, nombre, tipo, cantidadBodega, cantidadMinimaP, precioUnitario, iva, cantidadVendida);
+
+            resultados.add(current);
         }
-      
-        //Ejecutamos el statment e informamos
-        statement.executeUpdate();
-        System.out.println("Producto Actualizado correctamente");
 
         //Cerrar conexión
         this.conexionDB.desconectar();
+
+        return resultados;
     }
 }
 
