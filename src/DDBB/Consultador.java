@@ -63,8 +63,6 @@ public class Consultador {
         this.conexionDB.desconectar();
     }
     
-<<<<<<< Updated upstream
-=======
     public void actualizarProducto(int pIdProducto, String pNombreProducto, String pTipoProducto, int pCantidadProducto, int pCantidadMinProducto, float pPrecioUnit, float pIva, int pCantidadVendida) throws SQLException {
         //Iniciar conexión
         this.conexionDB.conectar();
@@ -149,7 +147,6 @@ public class Consultador {
 
         return resultados;
     }
->>>>>>> Stashed changes
 }
 
   
